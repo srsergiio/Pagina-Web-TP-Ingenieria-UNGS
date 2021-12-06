@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>Nuevo taller</title>
+		<meta charset="UTF-8"/>
+		<link href="./styles.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-logo-container">
+				<a href="./home.html"><img class="primary-logo" src="./assets/logos/primary-logo.svg" alt="20"/></a>
+			</div>
+			<div class="search-bar-container">
+				<input placeholder="Buscá una artesanía"/>
+				<button><a href="./items.html"><img src="./assets/icons/loupe.svg" alt="16"/></a></button>
+			</div>
+			<div class="header-buttons-container">
+				<a href="./login.html"><button class="btn btn-seccondary">Acceder</button></a>
+				<a href="./register.html"><button class="btn btn-primary">Registrarse</button></a>
+			</div>
+		</div>
+		<div>
+			<div class="form-container double-form">
+				<span class="form-title">Nuevo taller</span>
+				<div class="columns-2">
+					<div id="item-details" class="item-details">
+						<label>Nombre<input class="input"/></label>
+						<label>Descripción<textarea class="input" rows="3"></textarea></label>
+						<label>Categoría
+							<select class="input">
+								<option>Categoría A</option>
+								<option>Categoría B</option>
+								<option>Categoría C</option>
+							</select>
+						</label>
+						<label>Actividades ofrecidas
+							<select class="input">
+								<option>Artesanías</option>
+								<option>Pinturas</option>
+								<option>Otras</option>
+							</select>
+						</label>
+						<label>Horario<input class="input"/></label>
+						<label>Dirección<input class="input" onchange="findNormalizedAddress(this)"/></label>
+					</div>
+					<div id="item-image-upload" class="item-image-upload">
+						<label class="btn btn-seccondary">Subir imagen del taller<input class="not-visible" type="file" onchange="handleImageFile(this)"/></label>
+					</div>
+				</div>
+				<h4 id="normalized-address"></h4>
+				<button class="btn btn-primary" onclick="showAlert()">Enviar</button>
+			</div>
+		</div>
+
+		<div id="alert" class="alert-background">
+			<div class="alert-container">
+				<h4 class="form-title">¡Se envió la solicitud de alta de tu taller!</h4>
+				<hr>
+				<br>
+				<a href="./home.html"><button class="btn-primary">Entendido</button></a>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+
+		function findNormalizedAddress(input) {
+			let xmlHttpRequest = new XMLHttpRequest();
+			xmlHttpRequest.open('GET', `http://servicios.usig.buenosaires.gob.ar/normalizar/?direccion=${input.value}&maxOptions=1`);
+			xmlHttpRequest.send();
+			xmlHttpRequest.onreadystatechange = function() {
+
+				if (this.status === 200 && this.readyState === 4) {
+     				const responseBody = JSON.parse(this.response);
+					if(responseBody) {
+						let normalizedAddress = responseBody.direccionesNormalizadas[0]?.direccion;
+
+						document.getElementById('normalized-address').innerHTML = `${normalizedAddress ? `Dirección elegida: ${normalizedAddress}` : 'No encontramos tu dirección :('}`;
+					}
+    			} else {
+					document.getElementById('normalized-address').innerHTML = `No encontramos tu dirección :(`;
+				}
+			};
+		}
+
+		function handleImageFile(event) {
+			document.getElementById('uploaded-image')?.remove();
+
+			const file = event.files[0];
+
+			let img = document.createElement('img');
+			img.id = 'uploaded-image';
+			img.src = window.URL.createObjectURL(file);
+
+			document.getElementById('item-image-upload').appendChild(img);
+		}
+
+		function showAlert() {
+			let alert = document.getElementById('alert');
+			alert.style.display = 'block';
+		}
+
+	</script>
+</html>

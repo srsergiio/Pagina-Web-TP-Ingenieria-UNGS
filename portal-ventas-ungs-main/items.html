@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>Artesanías</title>
+		<meta charset="UTF-8"/>
+		<link href="./styles.css" rel="stylesheet">
+		<script src="./assets/data-source/items.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-logo-container">
+				<a href="./home.html"><img class="primary-logo" src="./assets/logos/primary-logo.svg" alt="20"/></a>
+			</div>
+			<div class="search-bar-container">
+				<input placeholder="Buscá una artesanía"/>
+				<button><a href="./items.html"><img src="./assets/icons/loupe.svg" alt="16"/></a></button>
+			</div>
+			<div class="header-buttons-container">
+				<a href="./login.html"><button class="btn btn-seccondary">Acceder</button></a>
+				<a href="./register.html"><button class="btn btn-primary">Registrarse</button></a>
+			</div>
+		</div>
+		<div>
+			<div id="item-list-container" class="item-list-container"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+
+
+		(function() {
+			buildItemsList();
+		})();
+
+		function buildItemsList() {
+			let htmlConcatenation = '';
+
+			//La variable items, proviene del archivo './assets/data-source/items.js'
+			for(const i of items) {
+				const html = `
+					<div class='item-container'>
+						<div class='item-image'>
+							<img src='${i.imageSrc}' alt='200'/><a>Ver detalles</a>
+						</div>
+						<div class='item-description'>
+							<span class="type">${i.publicationType}</span>
+							<span class="name">${i.name}</span>
+							<span class="price">${i.price}</span>
+						</div>
+					</div>`;
+
+				htmlConcatenation = htmlConcatenation + html;
+			}
+
+			document.getElementById('item-list-container').innerHTML = htmlConcatenation;
+		}
+
+	</script>
+</html>

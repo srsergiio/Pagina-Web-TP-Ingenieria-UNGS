@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>Registro</title>
+		<meta charset="UTF-8"/>
+		<link href="./styles.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-logo-container">
+				<a href="./home.html"><img class="primary-logo" src="./assets/logos/primary-logo.svg" alt="20"/></a>
+			</div>
+			<div class="search-bar-container">
+				<input placeholder="Buscá una artesanía"/>
+				<button><a href="./items.html"><img src="./assets/icons/loupe.svg" alt="16"/></a></button>
+			</div>
+			<div class="header-buttons-container">
+				<a href="./login.html"><button class="btn btn-seccondary">Acceder</button></a>
+				<a href="./register.html"><button class="btn btn-primary">Registrarse</button></a>
+			</div>
+		</div>
+		<div>
+			<div class="form-container">
+				<span class="form-title">Registrate como artesano</span>
+				<input class="input" placeholder="Nombre"/>
+				<input class="input" placeholder="Email"/>
+				<input class="input" placeholder="Teléfono"/>
+				<select class="input" onchange="handleUserRolChange(this.value)">
+					<option value="p">Trabajador particular</option>
+					<option value="w">Participante de taller</option>
+				</select>
+				<div id="dynamic-user-info"></div>
+				<button class="btn btn-primary" onclick="showAlert()">Registrarse</button>
+			</div>
+		</div>
+
+		<div id="alert" class="alert-background">
+			<div class="alert-container">
+				<h4 class="form-title">¡Gracias por registrarte en artesanos.com!</h4>
+				<hr>
+				<br>
+				<a href="./home.html"><button class="btn-primary">Ir al home</button></a>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+
+		const activityInfoInput = `<input id="activity-info" class="input" placeholder="Información de actividades"/>`;
+		const interestsDescription = `<input id="interets-desc" class="input" placeholder="Descripción de intereses"/>`;
+
+		(function() {
+			handleUserRolChange('p');
+		})();
+
+		function handleUserRolChange(value) {
+			document.getElementById('activity-info')?.remove();
+			document.getElementById('interets-desc')?.remove();
+
+			let auxDiv = document.createElement('div');
+			switch (value) {
+				case 'w': {
+					auxDiv.innerHTML = activityInfoInput;
+					document.getElementById('dynamic-user-info').appendChild(auxDiv.firstChild);
+					break;
+				}
+				case 'p': {
+					auxDiv.innerHTML = interestsDescription;
+					document.getElementById('dynamic-user-info').appendChild(auxDiv.firstChild);
+					break;
+				}
+			}
+		}
+
+		function showAlert() {
+			var alert = document.getElementById('alert');
+			alert.style.display = 'block';
+		}
+
+	</script>
+</html>
